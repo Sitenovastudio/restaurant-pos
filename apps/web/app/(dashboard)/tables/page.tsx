@@ -111,6 +111,25 @@ export default function TablesPage() {
         )}
       </div>
 
+      {!isLoading && floors && floors.length > 0 && (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {[
+            { label: "Total tables", value: allTables.length, tone: "bg-secondary text-foreground" },
+            { label: "Available", value: availableTables.length, tone: "bg-success/10 text-success" },
+            { label: "Occupied", value: occupiedTables.length, tone: "bg-primary/10 text-primary" },
+            { label: "Reserved", value: reservedTables.length, tone: "bg-warning/10 text-warning" },
+          ].map((item) => (
+            <Card key={item.label} className="flex flex-col gap-2 rounded-2xl border-border/80 p-3 shadow-sm sm:p-4">
+              <span className="text-xs font-medium text-muted-foreground">{item.label}</span>
+              <span className="flex items-center gap-2 text-2xl font-semibold tracking-tight tabular-nums text-foreground">
+                {item.value}
+                <span className={`size-2 rounded-full ${item.tone.split(" ")[0]}`} aria-hidden />
+              </span>
+            </Card>
+          ))}
+        </div>
+      )}
+
       {isLoading ? (
         <Skeleton className="h-96 rounded-2xl" />
       ) : floorsQuery.isError && !floors ? (
