@@ -83,6 +83,18 @@ export function CartPanel({
 
   return (
     <div className="flex h-full flex-col gap-4">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2.5">
+          <div className="flex size-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <ShoppingCart className="size-4" />
+          </div>
+          <div>
+            <h2 className="text-sm font-semibold tracking-tight text-foreground">Current order</h2>
+            <p className="text-xs text-muted-foreground">{lines.reduce((total, line) => total + line.quantity, 0)} items</p>
+          </div>
+        </div>
+        <span className="text-xs font-medium text-muted-foreground tabular-nums">{formatCurrency(subtotal)}</span>
+      </div>
       <Tabs value={orderType} onValueChange={(v) => onOrderTypeChange(v as PosOrderType)}>
         <TabsList className="w-full">
           <TabsTrigger value="TAKEAWAY" className="flex-1">
