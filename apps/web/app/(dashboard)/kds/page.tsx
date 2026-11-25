@@ -54,11 +54,17 @@ export default function KdsPage() {
 
   return (
     <div className="flex min-h-[calc(100dvh-10rem)] flex-col gap-4 lg:h-[calc(100dvh-8rem)]">
-      <div>
-        <h1 className="text-2xl font-semibold sm:text-[32px] tracking-tight text-foreground">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">Kitchen operations</p>
+          <h1 className="text-2xl font-semibold sm:text-[32px] tracking-tight text-foreground">
           Kitchen Display
         </h1>
-        <p className="text-sm text-muted-foreground">Live order tickets by station</p>
+          <p className="mt-1 text-sm text-muted-foreground">Live order tickets by station</p>
+        </div>
+        <div className="rounded-xl border border-border bg-card px-3 py-2 text-xs font-medium text-muted-foreground">
+          {shown.length} active {shown.length === 1 ? "ticket" : "tickets"}
+        </div>
       </div>
 
       <LiveStatus />
@@ -159,10 +165,10 @@ export default function KdsPage() {
       ) : (
         <div className="flex min-h-0 flex-1 snap-x snap-mandatory gap-3 overflow-x-auto sm:grid sm:snap-none sm:grid-cols-2 sm:gap-4 sm:overflow-hidden xl:grid-cols-4">
           {COLUMNS.map((col) => (
-            <div key={col.status} className="flex w-[85%] shrink-0 snap-center flex-col gap-3 overflow-hidden rounded-2xl bg-secondary/40 p-3 sm:w-auto sm:shrink">
+            <div key={col.status} className="flex w-[85%] shrink-0 snap-center flex-col gap-3 overflow-hidden rounded-2xl border border-border/70 bg-card p-3 shadow-sm sm:w-auto sm:shrink">
               <div className="flex items-center justify-between px-1">
                 <h2 className="text-sm font-semibold text-foreground">{col.label}</h2>
-                <span className="text-xs font-medium text-muted-foreground">
+                <span className="rounded-full bg-secondary px-2 py-0.5 text-xs font-semibold tabular-nums text-muted-foreground">
                   {byStatus(col.status).length}
                 </span>
               </div>
