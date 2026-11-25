@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { downloadHref } from "@/lib/downloads";
 import { PosMockup } from "@/components/marketing/pos-mockup";
 
-const words = ["Restaurant", "software", "you", "actually", "own."];
+const words = ["Run", "your", "restaurant", "smarter."];
 
 export function Hero() {
   return (
@@ -49,10 +49,9 @@ export function Hero() {
           transition={{ duration: 0.4, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
           className="mt-6 max-w-2xl text-balance text-lg text-muted-foreground sm:text-xl"
         >
-          POS, kitchen display, tables, reservations, inventory, and CRM — one
-          self-hosted stack that runs on your own LAN. No subscription, no
-          forced cloud dependency, no vendor lock-in. Your orders, your
-          customers&rsquo; data, your server.
+          SiteNova Restaurant ERP brings POS, billing, kitchen display, tables, inventory,
+          staff and business reporting into one connected platform. Deploy on your
+          own server or cloud infrastructure, with control over your restaurant data.
         </motion.p>
 
         <motion.div
