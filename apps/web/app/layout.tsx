@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OrderRestro",
-  description: "Offline-first restaurant management system",
+  title: "SiteNova Restaurant ERP",
+  description: "SiteNova Restaurant ERP — restaurant POS, kitchen operations, inventory and business management.",
   manifest: "/manifest.json",
   icons: {
     icon: [{ url: "/icons/favicon-32.png", sizes: "32x32", type: "image/png" }],
