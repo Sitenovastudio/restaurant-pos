@@ -49,6 +49,13 @@ export function ProductGrid({
 
   return (
     <div className="flex h-full flex-col gap-4">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <h2 className="text-sm font-semibold tracking-tight text-foreground">Menu</h2>
+          <p className="text-xs text-muted-foreground">Select an item to add it to the order</p>
+        </div>
+        <span className="rounded-full bg-secondary px-2.5 py-1 text-[11px] font-medium text-muted-foreground">POS</span>
+      </div>
       <div className="flex flex-col gap-2 sm:flex-row">
         <Input
           placeholder="Search menu…"
@@ -118,7 +125,7 @@ export function ProductGrid({
             type="button"
             title={item.name}
             onClick={() => onSelect(item)}
-            className="flex min-h-24 min-w-0 flex-col items-start gap-2 rounded-2xl border border-border bg-card p-3 text-left sm:p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97] active:translate-y-0 lg:min-h-32 lg:justify-between lg:p-4 lg:hover:border-primary/50"
+            className="group flex min-h-24 min-w-0 flex-col items-start gap-2 rounded-2xl border border-border/80 bg-card p-3 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98] active:translate-y-0 sm:p-4 lg:min-h-32 lg:justify-between lg:p-4"
           >
             <span
               className={`h-2.5 w-2.5 rounded-full ${item.isVeg ? "bg-success" : "bg-destructive"}`}
@@ -127,7 +134,7 @@ export function ProductGrid({
               {item.name}
             </span>
             <span className="flex w-full items-baseline justify-between gap-2">
-              <span className="text-sm font-semibold tabular-nums text-foreground lg:text-base">
+              <span className="text-sm font-semibold tabular-nums text-foreground transition-colors group-hover:text-primary lg:text-base">
                 {formatCurrency(item.price)}
               </span>
               {item.halfPrice != null && (
