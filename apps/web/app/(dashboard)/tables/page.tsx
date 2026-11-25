@@ -63,6 +63,8 @@ export default function TablesPage() {
   const activeFloor = floors?.find((f) => f.id === (activeFloorId ?? floors[0]?.id));
   const allTables = floors?.flatMap((f) => f.tables) ?? [];
   const availableTables = allTables.filter((t) => t.status === "AVAILABLE");
+  const occupiedTables = allTables.filter((t) => t.status === "OCCUPIED");
+  const reservedTables = allTables.filter((t) => t.status === "RESERVED");
 
   const canvasWidth = activeFloor
     ? Math.max(600, ...activeFloor.tables.map((t) => t.posX + t.width + 40))
@@ -92,7 +94,8 @@ export default function TablesPage() {
     <div className="flex flex-col gap-6">
       <TableRequestsBar branchId={branchId} />
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-        <div>
+        <div className="min-w-0">
+          <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">Floor management</p>
           <h1 className="text-[32px] font-semibold tracking-tight text-foreground">Tables</h1>
           <p className="text-sm text-muted-foreground">
             {editMode
@@ -101,7 +104,7 @@ export default function TablesPage() {
           </p>
         </div>
         {canManage && floors && floors.length > 0 && (
-          <Button variant={editMode ? "default" : "outline"} size="sm" className="h-11 w-full sm:h-8 sm:w-auto" onClick={() => setEditMode((v) => !v)}>
+          <Button variant={editMode ? "default" : "outline"} size="sm" className="h-11 w-full rounded-xl sm:h-9 sm:w-auto" onClick={() => setEditMode((v) => !v)>
             <LayoutGrid className="h-4 w-4" />
             {editMode ? "Done editing" : "Edit floor plan"}
           </Button>
