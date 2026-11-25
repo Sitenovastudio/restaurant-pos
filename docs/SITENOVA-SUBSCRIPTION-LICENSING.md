@@ -312,3 +312,35 @@ The current Docker Compose includes an updater service that uses the Docker sock
 The current repository is AGPL-3.0-only. Preserve its licence and required upstream notices. Review AGPL obligations and any separate commercial licensing strategy with qualified counsel before selling modified/hosted distributions.
 
 **Implementation status:** This document records the approved design. It does not claim that subscription payments, cryptographic licence verification, grace enforcement, or read-only mode have been implemented or tested yet.
+
+
+---
+
+## 13. Phase A implementation progress (2026-11-25)
+
+The first local licensing foundation has now been added on the customization branch:
+
+- `apps/backend/src/licensing/license.types.ts`: versioned payload, signed envelope, and status types.
+- `license-canonical-json.ts`: deterministic canonical JSON serialization for signed payloads.
+- `license-verifier.service.ts`: Ed25519 signature verification using public keys supplied through `SITENOVA_LICENSE_PUBLIC_KEYS`.
+- `licensing.service.ts`: persistent installation UUID, signed licence import, generation monotonicity check, and local status calculation.
+- `licensing.controller.ts`: authenticated `GET /api/v1/license/status` and `POST /api/v1/license/import` endpoints.
+- `licensing.module.ts` and `app.module.ts`: module registration.
+- Unit test files for canonical JSON and signature verification.
+
+### Configuration
+
+`SITENOVA_LICENSE_PUBLIC_KEYS` is a JSON object mapping key IDs to PEM-encoded Ed25519 public keys. Only public keys belong on the customer server. The matching private key is not generated or stored by this repository implementation.
+
+Optional paths:
+- `SITENOVA_LICENSE_STATE_DIR` (default `/data/state`)
+- `SITENOVA_INSTALLATION_ID_FILE` (default `/data/state/sitenova-installation-id`)
+- `SITENOVA_LICENSE_FILE` (default `/data/state/sitenova-license.json`)
+
+### Deliberate safety boundary at this stage
+
+This is a foundation, not a completed commercial licensing system. When no public key is configured, the service reports `UNCONFIGURED`; when no licence is imported, it reports `UNLICENSED`. Existing ERP behaviour is deliberately unchanged. The status service calculates `ACTIVE`, `GRACE`, and `READ_ONLY`, but **does not yet enforce read-only mode**. Do not configure production customer installations or advertise subscription enforcement until Phase B has guarded every write route, WebSocket mutation, integration, background job, and administrative operation.
+
+The local API is authenticated but currently uses the existing JWT authentication guard; owner/instance-operator authorization for licence administration still needs to be added. Manual import currently accepts a JSON signed envelope in the request body; a polished file-upload UI is pending. Automatic cloud renewal, payment processing, central customer portal, signing-key custody/rotation, clock rollback protection, and full licence import hardening are not implemented.
+
+Tests have been added but have **not yet been executed**. A successful GitHub commit is not evidence of a successful build or passing tests.
