@@ -312,8 +312,12 @@ function PosPageInner() {
   return (
     <div className="flex h-[calc(100dvh-10rem)] flex-col gap-4 lg:h-[calc(100dvh-8rem)]">
       <StatusNote note={note} onClear={clearNote} />
-      <div className="flex flex-wrap items-center justify-between gap-2">
+      <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
+          <div className="mb-2">
+            <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">Point of sale</h1>
+            <p className="text-xs text-muted-foreground sm:text-sm">Build an order, send it to the kitchen, and take payment</p>
+          </div>
           <KitchenProgressWidget branchId={branchId} />
         </div>
         <a
