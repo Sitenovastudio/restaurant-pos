@@ -160,12 +160,13 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-4 lg:gap-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
+        <div className="min-w-0">
+          <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">Restaurant overview</p>
           <h1 className="text-2xl font-semibold lg:text-[28px] tracking-tight text-foreground">
             {greeting}
             {firstName ? `, ${firstName}` : ""}
           </h1>
-          <p className="flex items-center gap-2 text-sm text-muted-foreground">
+          <p className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
             <span className="relative flex h-2 w-2" aria-hidden>
               {realtime === "live" && (
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success/60 motion-reduce:animate-none" />
@@ -178,6 +179,7 @@ export default function DashboardPage() {
         <Button
           variant="outline"
           size="sm"
+          className="shrink-0 rounded-xl"
           aria-expanded={customizing}
           onClick={() => setCustomizing((v) => !v)}
         >
