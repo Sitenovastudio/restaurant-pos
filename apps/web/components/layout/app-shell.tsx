@@ -182,7 +182,7 @@ export function AppShell({
               {collapsed ? <PanelLeftOpen className="h-5 w-5" /> : <PanelLeftClose className="h-5 w-5" />}
             </button>
             {/* The restaurant's name stays in view whether the sidebar is open or collapsed. */}
-            <span className="truncate text-sm font-semibold text-foreground">{shellDisplay?.restaurant?.name ?? "OrderRestro"}</span>
+            <span className="truncate text-sm font-semibold text-foreground">{shellDisplay?.restaurant?.name ?? "SiteNova ERP"}</span>
           </div>
           <div className="flex items-center gap-1">
             <LanguageSwitcher compact />
