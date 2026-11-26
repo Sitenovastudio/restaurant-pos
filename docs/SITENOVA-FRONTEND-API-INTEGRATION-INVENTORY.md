@@ -290,3 +290,8 @@ This commit adds documentation only. It does not:
 - Claim feature parity, successful builds, or passing emulator tests.
 
 Keep all migration work on `sitenova/phase-0-customization`. Do not merge, open a PR, or modify `master` unless explicitly requested.
+
+
+## Phase 0 exit
+
+The consolidated Phase 0 documentation exit and implementation acceptance gates are recorded in [`SITENOVA-PHASE-0-EXIT-AND-ACCEPTANCE-MATRIX.md`](./SITENOVA-PHASE-0-EXIT-AND-ACCEPTANCE-MATRIX.md). Documentation exit is achieved; implementation and emulator proof remain pending.
