@@ -277,3 +277,38 @@ The root module imports `ScheduleModule.forRoot()`, but the current extraction h
 - The controller paths listed above are exact paths that were successfully fetched. A 404 for an unverified guessed path is not evidence that the feature or module does not exist.
 - The checklist was authored with an earlier cross-reference date; branch HEAD can contain later changes. Resolve every checklist/source discrepancy against current UI, controller, service and tests rather than silently trusting the checklist.
 
+
+
+## 12. Golden fixture and permission baseline artifacts added
+
+Two machine-readable baselines and a human-readable acceptance note have now been added to the working branch:
+
+- `docs/fixtures/pos-pricing-settlement-golden.json` — source-derived tax-inclusive and tax-exclusive price handling, discount, tax breakup, loyalty, tip, delivery fee, cash change, split/partial payment, discount-cap and negative settlement cases, plus checkout/refund service invariants.
+- `docs/POS-GOLDEN-ACCEPTANCE-FIXTURES.md` — explains the source arithmetic and the key expected results.
+- `docs/fixtures/permission-baseline.json` — snapshots 48 permission keys, 12 default staff roles, permission implications, and deny-override precedence from `packages/types/src/permissions.ts`.
+
+### Permission baseline counts
+
+| Role | Source default grants |
+|---|---:|
+| OWNER | All 48 |
+| ADMINISTRATOR | All 48 |
+| RESTAURANT_MANAGER | 28 |
+| CASHIER | 12 |
+| WAITER | 7 |
+| KITCHEN_STAFF | 4 |
+| CHEF | 7 |
+| BARTENDER | 5 |
+| DELIVERY_STAFF | 3 |
+| ACCOUNTANT | 6 |
+| INVENTORY_MANAGER | 2 |
+| STOCK_JOURNAL_MANAGER | 2 |
+
+These are default code-defined grants, not the live grants of any particular restaurant/user. Database role grants and user-specific overrides can differ. The `permissionSatisfied()` source helper also honours explicit deny entries (stored as `!permission.key`) before direct or implied grants.
+
+### Numerical spot-checks
+
+The fixture expectations were manually checked against the inspected source formulas. For example, one tax-inclusive line of 118 at 18% has a tax breakup of 18; a 10% discount produces 106.20 before loyalty/tip/delivery; adding loyalty 5, tip 5 and delivery 10 yields 116.20 due. Cash tender of 120 against 116.20 yields 3.80 change.
+
+**Test execution status:** fixtures have been committed as acceptance specifications but have not yet been run through Jest, Firebase Emulator Suite or a migrated Function implementation. No claim of test pass is made.
+
