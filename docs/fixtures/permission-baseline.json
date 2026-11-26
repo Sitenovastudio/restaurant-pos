@@ -256,11 +256,53 @@
     },
     {
       "role": "RESTAURANT_MANAGER",
-      "permissions": []
+      "permissions": [
+        "sales.view",
+        "orders.create",
+        "orders.edit",
+        "orders.cancel",
+        "orders.accept",
+        "discounts.apply",
+        "discounts.unlimited",
+        "bills.print",
+        "tables.manage",
+        "tables.view",
+        "menu.manage",
+        "menu.view",
+        "inventory.manage",
+        "reports.access",
+        "kds.manage",
+        "reservations.manage",
+        "customers.manage",
+        "refunds.process",
+        "attendance.manage",
+        "delivery.manage",
+        "staff.manage",
+        "accounting.manage",
+        "marketing.manage",
+        "operations.manage",
+        "menu.price",
+        "table.session",
+        "ratings.view",
+        "nfc.manage"
+      ]
     },
     {
       "role": "CASHIER",
-      "permissions": []
+      "permissions": [
+        "table.session",
+        "orders.create",
+        "orders.edit",
+        "orders.accept",
+        "bills.print",
+        "discounts.apply",
+        "sales.view",
+        "customers.manage",
+        "dashboard.sales.view",
+        "menu.view",
+        "tables.view",
+        "expenses.submit"
+      ]
     },
     {
       "role": "WAITER",
