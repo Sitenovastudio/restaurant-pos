@@ -312,3 +312,14 @@ The fixture expectations were manually checked against the inspected source form
 
 **Test execution status:** fixtures have been committed as acceptance specifications but have not yet been run through Jest, Firebase Emulator Suite or a migrated Function implementation. No claim of test pass is made.
 
+
+
+## 13. Provisional field-level Firestore mapping worksheet
+
+Added `docs/fixtures/firestore-model-mapping-draft.json`, generated from the extracted Prisma inventory. It includes all 127 source models and 1,808 parsed fields, source types/attributes, model constraints, provisional tenant scope/path suggestions, broad security classifications, suggested write patterns and per-model review tasks.
+
+**This is deliberately a draft, not an approved Firestore schema.** All 1,808 fields remain marked `PENDING_FIELD_REVIEW` for transform, null/default and security decisions. Proposed collection paths are heuristics based on source scalar ownership fields and must be checked against relation ownership, business lifecycle, query patterns and public access requirements. In particular, relation-only child models such as order items and payments are left without a guessed root collection path.
+
+The draft separates restricted model families (e.g. API keys, payroll, payments/refunds, gateway records, webhook credentials, audit and bank records) from ordinary tenant/branch-scoped records. This is a preliminary classification and must be reviewed against actual field-level access and permission flows.
+
+The JSON was fetched back from the working branch and parsed successfully; it contains 127 models and 1,808 fields. No target Firestore collections or Firebase code were created by this step.
