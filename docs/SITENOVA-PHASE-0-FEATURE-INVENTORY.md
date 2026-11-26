@@ -323,3 +323,14 @@ Added `docs/fixtures/firestore-model-mapping-draft.json`, generated from the ext
 The draft separates restricted model families (e.g. API keys, payroll, payments/refunds, gateway records, webhook credentials, audit and bank records) from ordinary tenant/branch-scoped records. This is a preliminary classification and must be reviewed against actual field-level access and permission flows.
 
 The JSON was fetched back from the working branch and parsed successfully; it contains 127 models and 1,808 fields. No target Firestore collections or Firebase code were created by this step.
+
+
+## 14. POS aggregate and transaction design completed as a proposal
+
+Added `docs/SITENOVA-FIRESTORE-POS-TRANSACTION-DESIGN.md`. This is based on the inspected OrdersService, pricing/settlement functions, InventoryService, StockService and Prisma relations.
+
+It defines a proposed order aggregate and child documents, separate payment/refund records, branch-level stock movement ledgers, trusted command Functions, checkout sequencing, idempotency guards, FIFO stock behaviour, refund reservations, money/quantity precision, Security Rules boundaries and 18 acceptance tests.
+
+The design explicitly preserves source behaviours including partial-payment bill locking, PENDING-order acceptance, server-authoritative inclusive-tax pricing, cash-only change, checkout stock deduction in the same logical commit, money-only refunds not restoring stock, explicit returned-item reversals, and gateway refund reservations.
+
+**Status:** design proposal only. It has been fetched back from GitHub and verified. It has not been implemented or emulator-tested. Firestore's read-before-write transaction model and transaction size limits require a dedicated implementation spike before claiming parity.
