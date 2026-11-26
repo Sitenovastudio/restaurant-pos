@@ -256,52 +256,86 @@
     },
     {
       "role": "RESTAURANT_MANAGER",
-      "permissions": [
-        "sales.view",
-        "orders.create",
-        "orders.edit",
-        "orders.cancel",
-        "orders.accept",
-        "discounts.apply",
-        "discounts.unlimited",
-        "bills.print",
-        "tables.manage",
-        "tables.view",
-        "menu.manage",
-        "menu.view",
-        "inventory.manage",
-        "reports.access",
-        "kds.manage",
-        "reservations.manage",
-        "customers.manage",
-        "refunds.process",
-        "attendance.manage",
-        "delivery.manage",
-        "staff.manage",
-        "accounting.manage",
-        "marketing.manage",
-        "operations.manage",
-        "menu.price",
-        "table.session",
-        "ratings.view",
-        "nfc.manage"
-      ]
+      "permissions": []
     },
     {
       "role": "CASHIER",
+      "permissions": []
+    },
+    {
+      "role": "WAITER",
       "permissions": [
         "table.session",
         "orders.create",
         "orders.edit",
         "orders.accept",
-        "bills.print",
-        "discounts.apply",
-        "sales.view",
-        "customers.manage",
-        "dashboard.sales.view",
-        "menu.view",
         "tables.view",
-        "expenses.submit"
+        "menu.view",
+        "bills.print"
+      ]
+    },
+    {
+      "role": "KITCHEN_STAFF",
+      "permissions": [
+        "kds.manage",
+        "orders.accept",
+        "production.record",
+        "production.post"
+      ]
+    },
+    {
+      "role": "CHEF",
+      "permissions": [
+        "kds.manage",
+        "orders.accept",
+        "menu.manage",
+        "menu.view",
+        "production.record",
+        "production.post",
+        "production.quality"
+      ]
+    },
+    {
+      "role": "BARTENDER",
+      "permissions": [
+        "orders.create",
+        "orders.accept",
+        "kds.manage",
+        "menu.view",
+        "tables.view"
+      ]
+    },
+    {
+      "role": "DELIVERY_STAFF",
+      "permissions": [
+        "orders.edit",
+        "delivery.manage",
+        "delivery.rider"
+      ]
+    },
+    {
+      "role": "ACCOUNTANT",
+      "permissions": [
+        "sales.view",
+        "dashboard.sales.view",
+        "reports.access",
+        "reports.financial.view",
+        "data.export",
+        "accounting.manage"
+      ]
+    },
+    {
+      "role": "INVENTORY_MANAGER",
+      "permissions": [
+        "inventory.manage",
+        "reports.access"
+      ]
+    },
+    {
+      "role": "STOCK_JOURNAL_MANAGER",
+      "permissions": [
+        "journal.manage",
+        "menu.view"
       ]
     }
   ],
@@ -352,5 +386,5 @@
     "This is a source snapshot, not a substitute for live database role grants or per-user overrides.",
     "A live DENY override prefixed with ! takes precedence in permissionSatisfied()."
   ],
-  "roleCount": 4
+  "roleCount": 12
 }
