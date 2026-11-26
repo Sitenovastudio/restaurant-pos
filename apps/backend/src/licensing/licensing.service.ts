@@ -54,7 +54,11 @@ export class LicensingService {
     if (!this.verifier.isConfigured()) {
       return { mode: 'UNCONFIGURED', installationId, features: [], message: 'Licence verification is not configured. Existing ERP operation is unchanged.' };
     }
-    const stored = await this.readStoredLicense();
+    let stored: SignedSiteNovaLicense | null;
+    try { stored = await this.readStoredLicense(); }
+    catch {
+      return { mode: 'INVALID', installationId, features: [], message: 'The stored licence file is unreadable. Existing ERP data is preserved; contact SiteNova support.' };
+    }
     if (!stored) {
       return { mode: 'UNLICENSED', installationId, features: [], message: 'No SiteNova licence has been imported. Existing ERP operation is unchanged.' };
     }
@@ -88,7 +92,7 @@ export class LicensingService {
       features: p.features, limits: p.limits,
       message: mode === 'ACTIVE' ? 'Subscription active.' :
         mode === 'GRACE' ? 'Subscription expired. Seven-day grace period is active; renew your licence.' :
-        mode === 'READ_ONLY' ? 'Grace period ended. Read-only policy is scheduled for enforcement in the next implementation phase.' :
+        mode === 'READ_ONLY' ? 'Grace period ended. Business write requests are blocked; existing data remains available for viewing and export.' :
         'Licence is not yet valid.',
     };
   }
