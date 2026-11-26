@@ -189,3 +189,40 @@ Phase 0 is complete only when:
 ## 9. Next implementation gate
 
 Do not begin mass conversion yet. Finish the unchecked source extraction and build golden fixtures first. Then implement the Firebase Emulator foundation and one vertical slice (authentication + tenant/branch context + menu read) before POS checkout. The old Next.js/NestJS/PostgreSQL application remains intact until the replacement passes parity and migration rehearsal.
+
+
+## 10. Additional controller contracts inspected
+
+The following additional controller files were fetched from the target branch and their route decorators enumerated. These are source-backed API routes, not assumptions about which UI pages expose them.
+
+| Domain | Prefix | Enumerated routes |
+|---|---|---|
+| Dashboard | `/v1/dashboard` | GET summary, trends, preferences; PUT preferences |
+| Attendance | `/v1/attendance` | GET me/list; POST clock-in, events, clock-out; PATCH record |
+| Delivery | `/v1/delivery` | GET/POST/PATCH/DELETE zones; GET drivers/list; PATCH order assignment and status; GET assignment history |
+| Customers | `/v1/customers` | GET list/detail/rewards/addresses; POST customer/address; PATCH customer/address; DELETE customer/address |
+| Settings | `/v1/settings` | GET display/settings; PATCH restaurant/branch; POST restaurant logo; POST kiosk action |
+
+The following critical controllers were also re-fetched and inspected for route patterns:
+- Orders: `apps/backend/src/modules/orders/orders.controller.ts`
+- Tables: `apps/backend/src/modules/tables/tables.controller.ts`
+- KDS: `apps/backend/src/modules/kds/kds.controller.ts`
+- Menu: `apps/backend/src/modules/menu/menu.controller.ts`
+- Inventory: `apps/backend/src/modules/inventory/inventory.controller.ts`
+
+### Permission mapping limitation
+
+The inspected controllers did not expose the permission policy in the simple decorator forms searched during this pass. This does **not** mean these endpoints are unprotected. The actual guards, custom decorators, policy service, role seeds and permission enum must be traced from their imports and implementations before authoring Firebase Security Rules. No permission names have been invented in this inventory.
+
+## 11. Remaining extraction work and evidence boundary
+
+This pass expands the API inventory, but the repository connector did not provide a recursive directory listing for the selected branch. Therefore the following are still deliberately marked incomplete rather than guessed:
+
+- A complete list of every `apps/web/app/**/page.tsx` route and public route.
+- A complete list of every backend controller file and route, including modules whose controller filename/layout differs from the convention.
+- Permission guard/decorator and seeded-role mapping.
+- Scheduled jobs, Socket.IO gateway event names, webhook verification, external integrations and file/device workflows.
+- Field-level Firestore mapping for all 127 Prisma models and all 63 enums.
+- Golden fixtures and source-vs-target behaviour comparisons.
+
+The UI pages already named in this document are logical target routes or previously inspected product surfaces; they are not represented as a fully enumerated source route tree. Before Phase 0 can be signed off, obtain the complete source tree from a branch checkout or a recursive Git tree export, then generate the route/controller/permission manifest mechanically and review it against the feature checklist.
