@@ -351,5 +351,6 @@
   "notes": [
     "This is a source snapshot, not a substitute for live database role grants or per-user overrides.",
     "A live DENY override prefixed with ! takes precedence in permissionSatisfied()."
-  ]
+  ],
+  "roleCount": 4
 }
