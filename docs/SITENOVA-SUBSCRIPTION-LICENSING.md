@@ -344,3 +344,26 @@ This is a foundation, not a completed commercial licensing system. When no publi
 The local API is authenticated but currently uses the existing JWT authentication guard; owner/instance-operator authorization for licence administration still needs to be added. Manual import currently accepts a JSON signed envelope in the request body; a polished file-upload UI is pending. Automatic cloud renewal, payment processing, central customer portal, signing-key custody/rotation, clock rollback protection, and full licence import hardening are not implemented.
 
 Tests have been added but have **not yet been executed**. A successful GitHub commit is not evidence of a successful build or passing tests.
+
+
+### Phase B implementation progress (2026-11-26)
+
+A first HTTP enforcement layer has been added:
+
+- `license-enforcement.guard.ts` is registered as a global NestJS HTTP guard.
+- When the locally verified licence state is `READ_ONLY`, non-safe HTTP methods are rejected with HTTP 423 and error code `SUBSCRIPTION_READ_ONLY`.
+- Safe read methods (`GET`, `HEAD`, `OPTIONS`) remain available.
+- Explicit recovery exceptions: authenticated local licence import, login/logout, two-factor recovery/security routes, and verified backup restore.
+- The guard is intentionally inert for `UNCONFIGURED`, `UNLICENSED`, `ACTIVE`, `GRACE`, and `INVALID` states. This prevents an unconfigured rollout or damaged licence file from unexpectedly locking an existing restaurant installation.
+- Damaged/unreadable local licence files now report `INVALID` rather than causing a status endpoint parsing failure.
+- `license-enforcement.guard.spec.ts` covers safe methods, blocked business mutations, recovery exceptions, and look-alike paths.
+
+### Enforcement scope and remaining security work
+
+This global guard protects HTTP routes by method. It is a first enforcement boundary, not proof that every business write path is fully covered. Before production subscription enforcement, the next review must identify any state-changing GET endpoints, ensure every mutation path is represented by non-safe HTTP methods, review service-level/background job writes and external webhook/integration flows, and add tests for critical transaction routes.
+
+The inspected Socket.IO gateway currently authenticates clients and joins branch/user rooms; no inbound `@SubscribeMessage` mutation handlers were found in that gateway. If inbound socket commands are added later, they must call the same licensing policy before changing business data. This guard does not enforce database writes initiated internally by scheduled jobs, webhooks, direct service calls, or MCP tools.
+
+Backup restore remains an explicit recovery exception so an owner can recover data. It is still subject to the existing backup service's own role and validation checks. The policy is not a substitute for offline backups.
+
+**Verification status:** test files are committed but the Jest suite, TypeScript build, Docker image, and end-to-end flows have not been executed in this environment. Do not treat this branch as production-ready until those checks and the remaining mutation-path audit are complete.
