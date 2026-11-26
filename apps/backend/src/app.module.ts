@@ -57,6 +57,7 @@ import { SystemModule } from './system/system.module';
 import { VerifactuModule } from './modules/verifactu/verifactu.module';
 import { AiModule } from './ai/ai.module';
 import { LicensingModule } from './licensing/licensing.module';
+import { LicenseEnforcementGuard } from './licensing/license-enforcement.guard';
 
 @Module({
   imports: [
@@ -119,6 +120,7 @@ import { LicensingModule } from './licensing/licensing.module';
   providers: [
     AppService,
     { provide: APP_GUARD, useClass: ThrottlerGuard },
+    { provide: APP_GUARD, useClass: LicenseEnforcementGuard },
     { provide: APP_FILTER, useClass: PrismaExceptionFilter },
   ],
 })
