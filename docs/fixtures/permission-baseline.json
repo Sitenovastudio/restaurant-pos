@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "source": "packages/types/src/permissions.ts",
+  "sourceBlobSha": "f9b709dcd051bbe51b6d4ad834341e2f6d72d98a",
+  "permissionCount": 48,
+  "permissions": [
+    {
+      "key": "sales.view",
+      "label": "View Sales",
+      "category": "Sales"
+    },
+    {
+      "key": "dashboard.sales.view",
+      "label": "View Dashboard Revenue & Sales Reports",
+      "category": "Sales"
+    },
+    {
+      "key": "orders.create",
+      "label": "Create Orders",
+      "category": "Orders"
+    },
+    {
+      "key": "orders.edit",
+      "label": "Edit Orders",
+      "category": "Orders"
+    },
+    {
+      "key": "orders.cancel",
+      "label": "Cancel Orders",
+      "category": "Orders"
+    },
+    {
+      "key": "orders.accept",
+      "label": "Accept / Decline Incoming Orders",
+      "category": "Orders"
+    },
+    {
+      "key": "discounts.apply",
+      "label": "Apply Discounts",
+      "category": "Orders"
+    },
+    {
+      "key": "discounts.unlimited",
+      "label": "Discount Above the Cashier Limit",
+      "category": "Orders"
+    },
+    {
+      "key": "refunds.process",
+      "label": "Process Refunds",
+      "category": "Orders"
+    },
+    {
+      "key": "orders.delete",
+      "label": "Delete Past Transactions (admin password)",
+      "category": "Orders"
+    },
+    {
+      "key": "bills.print",
+      "label": "Print Bills",
+      "category": "Orders"
+    },
+    {
+      "key": "tables.view",
+      "label": "View Floors & Tables (read-only)",
+      "category": "Tables"
+    },
+    {
+      "key": "tables.manage",
+      "label": "Manage Tables",
+      "category": "Tables"
+    },
+    {
+      "key": "menu.view",
+      "label": "View Menu (read-only)",
+      "category": "Menu"
+    },
+    {
+      "key": "menu.manage",
+      "label": "Manage Menu",
+      "category": "Menu"
+    },
+    {
+      "key": "inventory.manage",
+      "label": "Manage Inventory",
+      "category": "Inventory"
+    },
+    {
+      "key": "reports.access",
+      "label": "Access Reports",
+      "category": "Reports"
+    },
+    {
+      "key": "users.manage",
+      "label": "Manage Users",
+      "category": "Admin"
+    },
+    {
+      "key": "reports.financial.view",
+      "label": "View Financial Reports",
+      "category": "Reports"
+    },
+    {
+      "key": "data.export",
+      "label": "Export Data",
+      "category": "Reports"
+    },
+    {
+      "key": "kds.manage",
+      "label": "Manage Kitchen Display",
+      "category": "Kitchen"
+    },
+    {
+      "key": "reservations.manage",
+      "label": "Manage Reservations",
+      "category": "Reservations"
+    },
+    {
+      "key": "settings.manage",
+      "label": "Manage Settings",
+      "category": "Admin"
+    },
+    {
+      "key": "customers.manage",
+      "label": "Manage Customers & Loyalty",
+      "category": "CRM"
+    },
+    {
+      "key": "audit_log.view",
+      "label": "View Audit Log",
+      "category": "Admin"
+    },
+    {
+      "key": "roles.manage",
+      "label": "Manage Roles",
+      "category": "Admin"
+    },
+    {
+      "key": "backup.manage",
+      "label": "Manage Backups",
+      "category": "Admin"
+    },
+    {
+      "key": "attendance.manage",
+      "label": "Manage Staff Attendance",
+      "category": "Staff"
+    },
+    {
+      "key": "delivery.manage",
+      "label": "Manage Deliveries",
+      "category": "Delivery"
+    },
+    {
+      "key": "delivery.rider",
+      "label": "Use the Rider App (own deliveries)",
+      "category": "Delivery"
+    },
+    {
+      "key": "staff.manage",
+      "label": "Manage Staff Schedules, Leave & Payroll",
+      "category": "Staff"
+    },
+    {
+      "key": "accounting.manage",
+      "label": "Manage Accounting",
+      "category": "Accounting"
+    },
+    {
+      "key": "expenses.submit",
+      "label": "Submit Expenses for Approval",
+      "category": "Accounting"
+    },
+    {
+      "key": "expenses.approve",
+      "label": "Approve or Reject Expenses",
+      "category": "Accounting"
+    },
+    {
+      "key": "pettycash.manage",
+      "label": "Keep the Petty Cash Box",
+      "category": "Accounting"
+    },
+    {
+      "key": "marketing.manage",
+      "label": "Manage Coupons, Promotions & Campaigns",
+      "category": "Marketing"
+    },
+    {
+      "key": "operations.manage",
+      "label": "Manage Equipment & Documents",
+      "category": "Operations"
+    },
+    {
+      "key": "system.update",
+      "label": "Manage App Updates",
+      "category": "Admin"
+    },
+    {
+      "key": "production.record",
+      "label": "Record Daily Production & Food Waste",
+      "category": "Inventory"
+    },
+    {
+      "key": "production.void",
+      "label": "Reverse Production & Approve Food Waste",
+      "category": "Inventory"
+    },
+    {
+      "key": "production.post",
+      "label": "Post Production Batches (drafting needs only Record)",
+      "category": "Inventory"
+    },
+    {
+      "key": "production.report",
+      "label": "View Manufacturing Reports",
+      "category": "Inventory"
+    },
+    {
+      "key": "production.quality",
+      "label": "Record Batch Quality Inspection Results",
+      "category": "Inventory"
+    },
+    {
+      "key": "journal.manage",
+      "label": "Manage the Stock Journal (all entry types, link menu items to stock)",
+      "category": "Inventory"
+    },
+    {
+      "key": "menu.price",
+      "label": "Change Menu Selling Prices from the Stock Journal",
+      "category": "Menu"
+    },
+    {
+      "key": "nfc.manage",
+      "label": "Manage NFC Table Tags & Table Ordering Mode",
+      "category": "Tables"
+    },
+    {
+      "key": "table.session",
+      "label": "Open & Close Table Sessions (guest ordering codes)",
+      "category": "Tables"
+    },
+    {
+      "key": "ratings.view",
+      "label": "View Customer Ratings",
+      "category": "CRM"
+    }
+  ],
+  "defaultRolePermissions": [
+    {
+      "role": "OWNER",
+      "permissions": "ALL_PERMISSION_KEYS"
+    },
+    {
+      "role": "ADMINISTRATOR",
+      "permissions": "ALL_PERMISSION_KEYS"
+    },
+    {
+      "role": "RESTAURANT_MANAGER",
+      "permissions": [
+        "sales.view",
+        "orders.create",
+        "orders.edit",
+        "orders.cancel",
+        "orders.accept",
+        "discounts.apply",
+        "discounts.unlimited",
+        "bills.print",
+        "tables.manage",
+        "tables.view",
+        "menu.manage",
+        "menu.view",
+        "inventory.manage",
+        "reports.access",
+        "kds.manage",
+        "reservations.manage",
+        "customers.manage",
+        "refunds.process",
+        "attendance.manage",
+        "delivery.manage",
+        "staff.manage",
+        "accounting.manage",
+        "marketing.manage",
+        "operations.manage",
+        "menu.price",
+        "table.session",
+        "ratings.view",
+        "nfc.manage"
+      ]
+    },
+    {
+      "role": "CASHIER",
+      "permissions": [
+        "table.session",
+        "orders.create",
+        "orders.edit",
+        "orders.accept",
+        "bills.print",
+        "discounts.apply",
+        "sales.view",
+        "customers.manage",
+        "dashboard.sales.view",
+        "menu.view",
+        "tables.view",
+        "expenses.submit"
+      ]
+    }
+  ],
+  "permissionImplications": [
+    {
+      "permission": "menu.manage",
+      "implies": [
+        "menu.view"
+      ]
+    },
+    {
+      "permission": "accounting.manage",
+      "implies": [
+        "expenses.submit",
+        "expenses.approve",
+        "pettycash.manage"
+      ]
+    },
+    {
+      "permission": "tables.manage",
+      "implies": [
+        "tables.view"
+      ]
+    },
+    {
+      "permission": "inventory.manage",
+      "implies": [
+        "production.record",
+        "production.void",
+        "production.post",
+        "production.report",
+        "production.quality",
+        "journal.manage"
+      ]
+    },
+    {
+      "permission": "journal.manage",
+      "implies": [
+        "production.record",
+        "production.void",
+        "production.post",
+        "production.report",
+        "production.quality"
+      ]
+    }
+  ],
+  "notes": [
+    "This is a source snapshot, not a substitute for live database role grants or per-user overrides.",
+    "A live DENY override prefixed with ! takes precedence in permissionSatisfied()."
+  ]
+}
