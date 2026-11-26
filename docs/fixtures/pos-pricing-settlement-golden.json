@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "branch": "sitenova/phase-0-customization",
+    "files": [
+      "apps/backend/src/modules/orders/pricing.ts",
+      "apps/backend/src/modules/orders/settlement.ts",
+      "apps/backend/src/modules/orders/orders.service.ts"
+    ],
+    "purpose": "Golden acceptance fixtures for reproducing existing server-authoritative POS pricing and settlement behaviour during the Firebase migration."
+  },
+  "currency": "INR",
+  "rounding": "round2 (two decimal places)",
+  "fixtures": [
+    {
+      "id": "tax-inclusive-118-at-18-percent",
+      "function": "priceLine",
+      "input": { "quantity": 1, "unitPriceInclusive": 118, "taxRatePercent": 18 },
+      "expected": { "lineTotal": 118, "taxAmount": 18 }
+    },
+    {
+      "id": "tax-inclusive-qty-two",
+      "function": "priceLine",
+      "input": { "quantity": 2, "unitPriceInclusive": 59, "taxRatePercent": 18 },
+      "expected": { "lineTotal": 118, "taxAmount": 18 }
+    },
+    {
+      "id": "tax-exclusive-price-converted-before-line-pricing",
+      "function": "toEffectiveInclusiveUnitPrice",
+      "input": { "rawUnitPrice": 100, "taxRatePercent": 18, "taxMode": "EXCLUSIVE" },
+      "expected": 118
+    },
+    {
+      "id": "tax-inclusive-price-is-not-grossed-up-again",
+      "function": "toEffectiveInclusiveUnitPrice",
+      "input": { "rawUnitPrice": 118, "taxRatePercent": 18, "taxMode": "INCLUSIVE" },
+      "expected": 118
+    },
+    {
+      "id": "percentage-discount-applies-to-inclusive-subtotal",
+      "function": "computeOrderTotals",
+      "input": {
+        "lines": [{ "lineTotal": 118, "taxAmount": 18 }],
+        "discountPercent": 10,
+        "discountFlat": 0
+      },
+      "expected": { "subtotal": 118, "taxAmount": 18, "discountAmount": 11.8, "totalAmount": 106.2 }
+    },
+    {
+      "id": "bill-discount-scales-tax-and-adds-tip-delivery",
+      "function": "computeBill",
+      "input": {
+        "lines": [{ "lineTotal": 118, "taxAmount": 18 }],
+        "discountPercent": 10,
+        "discountFlat": 0,
+        "autoDiscount": 0,
+        "loyaltyDiscountRequested": 5,
+        "tip": 5,
+        "deliveryFee": 10
+      },
+      "expected": {
+        "subtotal": 118,
+        "discountAmount": 11.8,
+        "discountPercent": 10,
+        "taxAmount": 16.2,
+        "loyaltyDiscountAmount": 5,
+        "tipAmount": 5,
+        "deliveryFee": 10,
+        "totalDue": 116.2
+      }
+    },
+    {
+      "id": "loyalty-redemption-is-capped-at-discounted-bill-total",
+      "function": "computeBill",
+      "input": {
+        "lines": [{ "lineTotal": 118, "taxAmount": 18 }],
+        "discountPercent": 10,
+        "loyaltyDiscountRequested": 999,
+        "tip": 0,
+        "deliveryFee": 0
+      },
+      "expected": {
+        "subtotal": 118,
+        "discountAmount": 11.8,
+        "taxAmount": 16.2,
+        "loyaltyDiscountAmount": 106.2,
+        "totalDue": 0
+      }
+    },
+    {
+      "id": "cash-over-tender-records-change",
+      "function": "settlePayments",
+      "input": {
+        "balance": 116.2,
+        "payments": [{ "method": "CASH", "amount": 116.2, "tendered": 120 }]
+      },
+      "expected": {
+        "payments": [{ "method": "CASH", "amount": 116.2, "tendered": 120, "changeGiven": 3.8 }],
+        "paidNow": 116.2,
+        "balanceAfter": 0,
+        "changeDue": 3.8,
+        "fullyPaid": true
+      }
+    },
+    {
+      "id": "split-cash-and-card-settlement",
+      "function": "settlePayments",
+      "input": {
+        "balance": 116.2,
+        "payments": [
+          { "method": "CASH", "amount": 50 },
+          { "method": "CARD", "amount": 66.2 }
+        ]
+      },
+      "expected": {
+        "paidNow": 116.2,
+        "balanceAfter": 0,
+        "changeDue": 0,
+        "fullyPaid": true
+      }
+    },
+    {
+      "id": "partial-payment-allowed-only-when-enabled",
+      "function": "settlePayments",
+      "input": {
+        "balance": 116.2,
+        "payments": [{ "method": "CASH", "amount": 50 }],
+        "allowPartial": true
+      },
+      "expected": {
+        "paidNow": 50,
+        "balanceAfter": 66.2,
+        "changeDue": 0,
+        "fullyPaid": false
+      }
+    },
+    {
+      "id": "non-cash-overpayment-is-rejected",
+      "function": "settlePayments",
+      "input": {
+        "balance": 116.2,
+        "payments": [{ "method": "CARD", "amount": 120 }]
+      },
+      "expectedErrorContains": "only cash can be over-tendered"
+    },
+    {
+      "id": "payment-line-must-be-positive",
+      "function": "settlePayments",
+      "input": {
+        "balance": 116.2,
+        "payments": [{ "method": "CASH", "amount": 0 }]
+      },
+      "expectedErrorContains": "Each payment must be more than zero"
+    },
+    {
+      "id": "discount-cap-flat-discount-over-10-percent",
+      "function": "assertManualDiscountAllowed",
+      "input": {
+        "subtotal": 118,
+        "discountPercent": 0,
+        "discountFlat": 15,
+        "maxPercent": 10,
+        "requireReason": false,
+        "mayExceedCap": false
+      },
+      "expectedErrorContains": "Discounts above 10% need a manager"
+    },
+    {
+      "id": "discount-reason-required",
+      "function": "assertManualDiscountAllowed",
+      "input": {
+        "subtotal": 118,
+        "discountPercent": 5,
+        "discountFlat": 0,
+        "maxPercent": 10,
+        "requireReason": true,
+        "reason": "   ",
+        "mayExceedCap": false
+      },
+      "expectedErrorContains": "Enter a reason for the discount"
+    },
+    {
+      "id": "discount-cap-override-allows-over-limit",
+      "function": "assertManualDiscountAllowed",
+      "input": {
+        "subtotal": 118,
+        "discountPercent": 15,
+        "discountFlat": 0,
+        "maxPercent": 10,
+        "requireReason": false,
+        "mayExceedCap": true
+      },
+      "expected": null
+    }
+  ],
+  "serviceLevelAssertions": [
+    {
+      "id": "checkout-request-idempotency",
+      "source": "OrdersService.checkout",
+      "assertion": "Repeating a checkout with a requestId already present on an order payment returns the existing checkout result instead of creating a duplicate payment."
+    },
+    {
+      "id": "checkout-order-must-be-open",
+      "source": "OrdersService.checkout",
+      "assertion": "Checkout rejects an order whose status is not OPEN."
+    },
+    {
+      "id": "pending-order-must-be-accepted",
+      "source": "OrdersService.checkout",
+      "assertion": "Checkout rejects an order with acceptance=PENDING until it has been accepted."
+    },
+    {
+      "id": "refund-must-be-positive-and-paid",
+      "source": "OrdersService.refund",
+      "assertion": "Refund amount must be finite and greater than zero; only PAID orders can be refunded."
+    },
+    {
+      "id": "refund-concurrency-does-not-exceed-paid-amount",
+      "source": "OrdersService.refund",
+      "assertion": "Concurrent refund attempts serialize on the order row and recompute the already-refunded total before accepting another refund."
+    },
+    {
+      "id": "tenant-branch-scope",
+      "source": "OrdersService.checkout and refund",
+      "assertion": "Order lookup is scoped by both orderId and branchId; a different branch must not operate on the order."
+    }
+  ]
+}
