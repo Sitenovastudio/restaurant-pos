@@ -226,3 +226,54 @@ This pass expands the API inventory, but the repository connector did not provid
 - Golden fixtures and source-vs-target behaviour comparisons.
 
 The UI pages already named in this document are logical target routes or previously inspected product surfaces; they are not represented as a fully enumerated source route tree. Before Phase 0 can be signed off, obtain the complete source tree from a branch checkout or a recursive Git tree export, then generate the route/controller/permission manifest mechanically and review it against the feature checklist.
+
+
+## 10. Additional controller, auth, delivery and realtime extraction
+
+The following controller files were fetched from the target branch and their route decorators extracted. This expands the representative route sample; it is still not the exhaustive controller catalogue.
+
+| Domain | Controller prefix | Verified route decorators |
+|---|---|---|
+| Authentication | `/v1/auth` | register, login, demo-login, PIN login, delete account, logout, 2FA status/setup/enable/disable/reset, current user, setup status |
+| Dashboard | `/v1/dashboard` | summary, trends, preferences GET/PUT |
+| Attendance | `/v1/attendance` | me, clock-in, events, clock-out, update attendance record |
+| Delivery | `/v1/delivery` | zones CRUD, drivers, list delivery orders, assign/reassign, assignment history, status |
+| Rider | `/v1/rider` | me, duty status, location update, assigned deliveries, delivery status |
+| Reservations | `/v1/reservations` | list, create, update status |
+| Waitlist | `/v1/waitlist` | list, create, seat party, remove |
+| Customers | `/v1/customers` | list, detail, rewards, create/update/delete, addresses CRUD |
+| Users / staff | `/v1/users` | users CRUD, roles, departments CRUD, per-user permission overrides |
+| Settings | `/v1/settings` | display settings, settings read, restaurant update/logo upload, branch update, kiosk action |
+| Marketing | `/v1/marketing` | coupons CRUD/activation, promotions CRUD/activation, campaigns, audience, send, audience CSV |
+| Accounting | `/v1/accounting` | expenses, mine, pending, approve/reject/delete, cash-closing preview/list/create, profit-loss, GST, branches |
+
+### Delivery discrepancy — updated assessment
+
+The earlier checklist statement “no Delivery model or module” is not accurate for the current inspected branch. There are Delivery and Rider modules, controllers and services, and the Prisma schema includes delivery-related entities such as `DeliveryZone` and `DeliveryAssignment`. The inspected delivery controller exposes assignment, status, zones and driver endpoints; the rider controller exposes duty, location and delivery workflow endpoints.
+
+**Correct status for migration planning:** delivery is an existing backend domain and must be inventoried and preserved where implemented. The checklist's “Planned” status must not be used to omit these backend capabilities. The actual frontend page coverage and end-to-end operational completeness still need verification before calling the whole delivery product feature shipped.
+
+### Authentication, permission and global guard observations
+
+- The auth controller exposes password/demo/PIN login, logout, current-user and two-factor authentication endpoints.
+- The auth controller uses `JwtAuthGuard` on protected endpoints.
+- The root `AppModule` registers global `ThrottlerGuard` and `LicenseEnforcementGuard`.
+- The accounting controller performs a direct permission check for `expenses.approve` in the controller logic.
+- Controller-level permission decorators were not found by the simple decorator extraction used in this pass. This does **not** mean routes are unprotected: guards, helper calls, service-level checks and global interceptors/guards must be traced individually before the Firebase security model is approved.
+
+### Realtime gateway observations
+
+The root realtime module provides `RealtimeGateway` and `BranchAccessService`. The gateway is a Socket.IO WebSocket gateway, uses credentialed CORS, and emits events to branch rooms and user rooms. Its connection handler contains a comment noting a prior security fix around trusting a client-supplied branch ID. The migration must preserve server-verified branch-room membership; clients must never choose their own tenant/branch subscription scope.
+
+### Scheduled jobs and event completeness
+
+The root module imports `ScheduleModule.forRoot()`, but the current extraction has not yet enumerated every `@Cron`, interval, queue worker, webhook handler or integration callback. The complete scheduled/event inventory remains open. Do not assume that the absence of a cron decorator in the files inspected so far means there are no background jobs.
+
+## 11. Evidence and remaining extraction limitations
+
+- The GitHub connector allowed fetching known file paths from the working branch and confirming their content/blob hashes.
+- Its code-search action returned no usable results for the broad file/decorator queries used in this pass. Therefore it was not used as evidence for a claim that a directory or repository contains no additional routes.
+- Directory-tree enumeration and complete frontend route enumeration remain unfinished.
+- The controller paths listed above are exact paths that were successfully fetched. A 404 for an unverified guessed path is not evidence that the feature or module does not exist.
+- The checklist was authored with an earlier cross-reference date; branch HEAD can contain later changes. Resolve every checklist/source discrepancy against current UI, controller, service and tests rather than silently trusting the checklist.
+
